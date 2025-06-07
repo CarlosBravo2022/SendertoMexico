@@ -1,0 +1,110 @@
+--I created a column to separate what was miscellaneous from durable items.
+
+--Alter table dayreadyq1
+--ADD column RES_DESCRIP TEXT
+--ADD column subcategory TEXT
+--ADD COLUMN subcategory TEXT
+/*ALTER TABLE dayreadyq1
+RENAME COLUMN adress TO address;
+
+ALTER TABLE dayreadyq1
+RENAME COLUMN "Sender's_ID" TO sender_id;
+
+ALTER TABLE dayreadyq1
+RENAME COLUMN "City" TO city;
+ALTER TABLE dayreadyq1
+RENAME COLUMN "House_id" TO house_id;
+ALTER TABLE dayreadyq1
+RENAME COLUMN "Receiver_id" TO receiver_id;
+ALTER TABLE dayreadyq1
+RENAME COLUMN "origin_city" TO delivery_state;
+ALTER TABLE dayreadyq1
+ALTER COLUMN receive_dater TYPE date
+USING receive_dater::date;
+ALTER TABLE dayreadyq1
+ADD COLUMN  country_receiver TEXT;
+
+update dayreadyq1
+SET country_delivery = 'United States';
+
+
+UPDATE dayreadyq1
+SET country_receiver = 'Mexico';
+
+ALTER TABLE dayreadyq1
+ALTER COLUMN zipcode_receiver TYPE TEXT
+USING zipcode_receiver::TEXT;
+
+UPDATE dayreadyq1
+SET zipcode_receiver = LPAD(zipcode_receiver, 5, '0');
+
+ALTER TABLE dayreadyq1
+alter column sender_zipcode TYPE TEXT
+USING sender_zipcode::TEXT;
+
+
+UPDATE dayreadyq1
+SET sender_zipcode = LPAD(sender_zipcode, 5, '0');
+*/
+
+
+
+
+ALTER TABLE dayreadyq1
+ALTER COLUMN sender_date TYPE date
+USING sender_date::date;
+
+
+ALTER TABLE dayreadyq1
+ALTER COLUMN container_date TYPE date
+USING container_date::date;
+
+
+
+
+
+
+UPDATE dayreadyq1
+SET subcategory = CASE 
+    WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%tv%' OR description ILIKE '%TELE%')) THEN 'TV'
+    WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%GEN%' OR description ILIKE '%PLANTA%')) THEN 'GENERATOR'
+    WHEN (res_descrip = 'DURADERO' AND description ILIKE '%MOTO %' AND (description NOT ILIKE '%nino%' OR description NOT ILIKE '%ELECTR%') AND lb > 200)THEN 'Motorcycle'
+	WHEN res_descrip = 'DURADERO' AND description ILIKE '%colchon%' THEN 'Mattress'
+	WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%panel%' OR description ILIKE '%solar%')) THEN 'PANEL SOLAR'
+	WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%CARRO%' OR description ILIKE '%GOMA%' OR description ILIKE '%auto%' OR description ILIKE '%freno%' OR description ILIKE '%transmis%' OR description ILIKE '%velocidad%')) THEN 'Cars Parts'
+	WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%bici%' OR description ILIKE '%bisi%')) THEN 'Bike'
+	WHEN (res_descrip = 'DURADERO' AND (description ILIKE '%bati%' OR description ILIKE '%cocina%' 
+	OR description ILIKE '%estu%'OR description ILIKE '%refri%' OR description ILIKE '%never%' OR description ILIKE '%olla%' 
+	OR description ILIKE '%cafet%' OR description ILIKE '%freido%' OR description ILIKE '%sarten%' OR description ILIKE '%minibar%' OR description ILIKE '%micro%' 
+	OR description ILIKE '%fry%' OR description ILIKE '%arrocer%' OR description ILIKE '%tostadora%' OR description ILIKE '%sandw%' OR description ILIKE '%sangui%' OR description ILIKE '%fre%' OR description ILIKE '%HORNO%')) THEN 'Kitchen_utensils'
+	WHEN res_descrip = 'DURADERO' THEN 'NO-ESPECIFIC-DURADERO'
+	WHEN res_descrip = 'MISCELANEA' THEN 'MISCELANEA' 
+	ELSE NULL END;
+--Alter table dayreadyq1
+--ADD column lb numeric; 
+-- I separated everything that was miscellaneous into durable
+
+DELETE FROM dayreadyq1
+WHERE description IS NULL;
+-- WE DON'T EVER CHARGE MORE THAN 700 KG 
+DELETE FROM dayreadyq1
+WHERE kg > 700;
+
+UPDATE dayreadyq1
+SET RES_DESCRIP = CASE 
+    WHEN description ILIKE '%MIS%' OR description ILIKE '%MICE%' OR description ILIKE '%ropa%' OR description ILIKE '%medi%' OR description ILIKE '%comi%' OR description ILIKE '%MERCAN%' THEN 'MISCELANEA'
+    ELSE 'DURADERO'
+  END;
+  
+-- I added another column to convert the weight to pounds.
+UPDATE dayreadyq1
+SET lb = kg * 2.20462;
+
+UPDATE dayreadyq1
+SET receiver_state = replace(receiver_state, 'lean', 'leon');
+UPDATE dayreadyq1
+SET receiver_city = replace(receiver_city, 'marida', 'merida');
+
+
+SELECT *
+FROM dayreadyq1;
