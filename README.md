@@ -59,3 +59,9 @@ Tableau was used to create a scatter plot to determine the correlation between t
 - Seasonal trend analysis of shipments.
 
 ---
+
+![Screenshot 2025-05-25 at 3 25 48 PM](https://github.com/user-attachments/assets/4f05124b-506a-403b-aad0-62678e98d6c2)
+![Screenshot 2025-05-25 at 11 54 28 AM](https://github.com/user-attachments/assets/a0422cca-0edc-4ebc-9df5-ad7c67a54c8f)
+![Screenshot 2025-05-25 at 11 57 04 AM](https://github.com/user-attachments/assets/1d71c67d-a06e-491b-b695-e852878a49c2)
+![Screenshot 2025-05-25 at 11 56 25 AM](https://github.com/user-attachments/assets/3a65b95d-1673-4af6-bb34-a4c6f88b9964)
+
